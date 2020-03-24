@@ -1,0 +1,7 @@
+news_api/*.pyc
+news_api/*~
+news_api/__pycache__
+env
+news_api/db.sqlite3
+news_api/static
+news_api/.DS_Store
