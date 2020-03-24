@@ -4,6 +4,7 @@
 Create virtual environment
 ```
 virtualenv env
+source env/bin/activate
 ```
 
 Download requirements 
