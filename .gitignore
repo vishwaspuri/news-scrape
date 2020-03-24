@@ -1,5 +1,5 @@
 news_api/*.pyc
-news_api/__pycache__
+news_api/core/__pycache__
 env
 news_api/db.sqlite3
 news_api/static
