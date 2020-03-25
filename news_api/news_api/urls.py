@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import ArticleView
+from core.views import ArticleView, StateView
 import core.views as views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('scrape/', views.scrape, name='scrape'),
-    path('scrape/scrape_result/', ArticleView.as_view(), name='article')
+    path('news-scrape/', views.news_scrape, name='news_scrape'),
+    path('news-scrape/news_result/', ArticleView.as_view(), name='article'),
+    path('state-scrape/', views.StateData, name='state_scrape'),
+    path('state-scrape/state_result/', StateView.as_view(), name='state'),
 ]

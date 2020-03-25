@@ -2,13 +2,13 @@ from django.shortcuts import render,redirect
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Article
-from .serializers import ArticleSerializer
+from .models import Article,State
+from .serializers import ArticleSerializer, StateSerializer
 from bs4 import BeautifulSoup as Soup
 import requests
 
 # Create your views here.
-def scrape(request):
+def news_scrape(request):
     session=requests.Session()
     url='https://www.hindustantimes.com/topic/coronavirus'
     content=session.get(url,verify=False).content
@@ -39,15 +39,66 @@ def scrape(request):
         new_article.description = description[i]
         new_article.save()
 
-    return redirect('scrape_result/')
+    return redirect('news_result/')
 
+def StateData(request):
+    session = requests.Session()
+    url = 'https://www.mohfw.gov.in/'
+    content = session.get(url, verify=False).content
+    soup = Soup(content, 'lxml')
+    index = []
+    StateName = []
+    confirmed_cases_indian = []
+    confirmed_cases_foreign = []
+    cured = []
+    deaths = []
 
-
-
+    table_class = soup.find_all(class_='table table-striped table-dark')[7]
+    i = 0
+    for element in table_class.find_all('tr'):
+        if i < 26:
+            table_row = element.find_all('td')
+            x = 0
+            for td in table_row:
+                if x == 0:
+                    index.append(int(td.string))
+                    x = x + 1
+                elif x == 1:
+                    StateName.append(td.string)
+                    x = x + 1
+                elif x == 2:
+                    confirmed_cases_indian.append(int(td.string))
+                    x = x + 1
+                elif x == 3:
+                    confirmed_cases_foreign.append(int(td.string))
+                    x = x + 1
+                elif x == 4:
+                    cured.append(int(td.string))
+                    x = x + 1
+                elif x == 5:
+                    deaths.append(int(td.string))
+                    x = x + 1
+            i = i + 1
+    for i in range(0,25):
+        new_state=State()
+        new_state.state_name=StateName[i]
+        new_state.india_confirmed_cases=confirmed_cases_indian[i]
+        new_state.foreign_confirmed_cases=confirmed_cases_foreign[i]
+        new_state.cured_cases=cured[i]
+        new_state.deaths_caused=deaths[i]
+        new_state.save()
+    return redirect('state_result/')
 
 
 class ArticleView(APIView):
     def get(self, request, *args, **kwargs):
         qs=Article.objects.all()
         serializer=ArticleSerializer(qs,many=True)
+        return Response(serializer.data)
+
+
+class StateView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs=State.objects.all()
+        serializer=StateSerializer(qs,many=True)
         return Response(serializer.data)
