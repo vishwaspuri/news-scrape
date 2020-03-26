@@ -131,5 +131,15 @@ class CuredCasesView(APIView):
 class DeathCasesView(APIView):
     def get(self, request, *args, **kwargs):
         qs=State.objects.all()
-        serializer=DeathCasesSerializer(qs,many=True)
-        return Response(serializer.data)
+        serializer_one=DeathCasesSerializer(qs,many=True)
+        return Response(serializer_one.data)
+
+class CombinedView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs = State.objects.all()
+        serializer_one = StateNameSerializer(qs, many=True)
+        serializer_two = IndianCasesSerializer(qs, many=True)
+        serializer_three = ForeignCasesSerializer(qs, many=True)
+        serializer_four = CuredCasesSerializer(qs, many=True)
+        serializer_five = DeathCasesSerializer(qs, many=True)
+        return Response([serializer_one.data,serializer_two.data,serializer_three.data, serializer_four.data,serializer_five.data])
