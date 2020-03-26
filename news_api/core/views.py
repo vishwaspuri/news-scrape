@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Article,State, NationalData
-from .serializers import ArticleSerializer, StateSerializer,StateNameSerializer, IndianCasesSerializer,ForeignCasesSerializer, CuredCasesSerializer,DeathCasesSerializer
+from .serializers import ArticleSerializer, StateSerializer,StateNameSerializer, IndianCasesSerializer,ForeignCasesSerializer, CuredCasesSerializer,DeathCasesSerializer,NationalDataSerializer
 from bs4 import BeautifulSoup as Soup
 import requests
 
@@ -148,5 +148,5 @@ class CombinedView(APIView):
 class NationalDataView(APIView):
     def get(self, request, *args, **kwargs):
         qs=NationalData.objects.all()
-        serializer=ArticleSerializer(qs,many=True)
+        serializer=NationalDataSerializer(qs,many=True)
         return Response(serializer.data)
