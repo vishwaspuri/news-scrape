@@ -1,5 +1,4 @@
-from django.shortcuts import render,redirect
-from django.http import JsonResponse
+from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Article,State
@@ -9,6 +8,7 @@ import requests
 
 # Create your views here.
 def news_scrape(request):
+    Article.objects.all().delete()
     session=requests.Session()
     url='https://www.hindustantimes.com/topic/coronavirus'
     content=session.get(url,verify=False).content
@@ -42,6 +42,7 @@ def news_scrape(request):
     return redirect('news_result/')
 
 def StateData(request):
+    State.objects.all().delete()
     session = requests.Session()
     url = 'https://www.mohfw.gov.in/'
     content = session.get(url, verify=False).content
@@ -56,7 +57,7 @@ def StateData(request):
     table_class = soup.find_all(class_='table table-striped table-dark')[7]
     i = 0
     for element in table_class.find_all('tr'):
-        if i < 26:
+        if i < 27:
             table_row = element.find_all('td')
             x = 0
             for td in table_row:
@@ -79,7 +80,7 @@ def StateData(request):
                     deaths.append(int(td.string))
                     x = x + 1
             i = i + 1
-    for i in range(0,25):
+    for i in range(0,26):
         new_state=State()
         new_state.state_name=StateName[i]
         new_state.india_confirmed_cases=confirmed_cases_indian[i]
