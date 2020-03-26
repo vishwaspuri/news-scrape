@@ -42,7 +42,7 @@ def news_scrape(request):
     return redirect('news_result/')
 
 def StateData(request):
-    State.objects.all().delete()
+#   State.objects.all().delete()
     session = requests.Session()
     url = 'https://www.mohfw.gov.in/'
     content = session.get(url, verify=False).content
