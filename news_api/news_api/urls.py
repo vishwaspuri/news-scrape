@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import ArticleView, StateView
+from core.views import ArticleView, StateView, StateNameView, IndianCasesView, ForeignCasesView,CuredCasesView,DeathCasesView
 import core.views as views
 
 
@@ -25,4 +25,9 @@ urlpatterns = [
     path('news-scrape/news_result/', ArticleView.as_view(), name='article'),
     path('state-scrape/', views.StateData, name='state_scrape'),
     path('state-scrape/state_result/', StateView.as_view(), name='state'),
+    path('state-name/', StateNameView.as_view(), name='state name'),
+    path('indian-cases/', IndianCasesView.as_view(), name='indian cases'),
+    path('foreign-cases/', ForeignCasesView.as_view(), name='foreign cases'),
+    path('cured-cases/', CuredCasesView.as_view(), name='cured cases'),
+    path('dead-cases/', DeathCasesView.as_view(), name='dead cases'),
 ]

@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Article,State
-from .serializers import ArticleSerializer, StateSerializer
+from .serializers import ArticleSerializer, StateSerializer,StateNameSerializer, IndianCasesSerializer,ForeignCasesSerializer, CuredCasesSerializer,DeathCasesSerializer
 from bs4 import BeautifulSoup as Soup
 import requests
 
@@ -102,4 +102,34 @@ class StateView(APIView):
     def get(self, request, *args, **kwargs):
         qs=State.objects.all()
         serializer=StateSerializer(qs,many=True)
+        return Response(serializer.data)
+
+class StateNameView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs=State.objects.all()
+        serializer=StateNameSerializer(qs,many=True)
+        return Response(serializer.data)
+
+class IndianCasesView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs=State.objects.all()
+        serializer=IndianCasesSerializer(qs,many=True)
+        return Response(serializer.data)
+
+class ForeignCasesView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs=State.objects.all()
+        serializer=ForeignCasesSerializer(qs,many=True)
+        return Response(serializer.data)
+
+class CuredCasesView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs=State.objects.all()
+        serializer=CuredCasesView(qs,many=True)
+        return Response(serializer.data)
+
+class DeathCasesView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs=State.objects.all()
+        serializer=DeathCasesSerializer(qs,many=True)
         return Response(serializer.data)
