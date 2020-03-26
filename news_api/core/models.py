@@ -19,4 +19,7 @@ class State(models.Model):
     cured_cases=models.IntegerField()
     deaths_caused=models.IntegerField()
 
+class NationalData(models.Model):
+    date=models.DateField()
+    number_of_cases=models.IntegerField()
 

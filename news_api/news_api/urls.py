@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import ArticleView, StateView, StateNameView, IndianCasesView, ForeignCasesView,CuredCasesView,DeathCasesView,CombinedView
+from core.views import ArticleView, StateView, StateNameView, IndianCasesView, ForeignCasesView,CuredCasesView,DeathCasesView,CombinedView,NationalDataView
 import core.views as views
 
 
@@ -31,4 +31,5 @@ urlpatterns = [
     path('cured-cases/', CuredCasesView.as_view(), name='cured cases'),
     path('dead-cases/', DeathCasesView.as_view(), name='dead cases'),
     path('combo-mode/', CombinedView.as_view(), name='combined info'),
+    path('national-data/', NationalDataView.as_view(), name='national data')
 ]

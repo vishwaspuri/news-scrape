@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Article,State
+from .models import Article,State, NationalData
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -48,3 +48,10 @@ class DeathCasesSerializer(serializers.ModelSerializer):
         fields=[
             'deaths_caused'
         ]
+
+class NationalDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=NationalData
+        fields=(
+            'date','number_of_cases'
+        )
