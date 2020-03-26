@@ -125,7 +125,7 @@ class ForeignCasesView(APIView):
 class CuredCasesView(APIView):
     def get(self, request, *args, **kwargs):
         qs=State.objects.all()
-        serializer=CuredCasesView(qs,many=True)
+        serializer=CuredCasesSerializer(qs,many=True)
         return Response(serializer.data)
 
 class DeathCasesView(APIView):
