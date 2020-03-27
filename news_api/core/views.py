@@ -29,7 +29,7 @@ def news_scrape(request):
             title.append(Title.a['title'])
 
         for list_images in element.find_all(class_='media-img'):
-            imgUrl.append(list_images.a.img['src'])
+            imgUrl.append(list_images.a.img['data-src'])
 
     for i in range(0,len(imgUrl)-1):
         new_article = Article()
