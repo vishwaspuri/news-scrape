@@ -1,6 +1,7 @@
 news_api/*.pyc
 __pycache__
 env
+news_api/news_api/secret_settings.py
 news_api/db.sqlite3
 news_api/static
 news_api/.DS_Store
