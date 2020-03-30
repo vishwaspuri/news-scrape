@@ -2,6 +2,9 @@ from django.db import models
 
 # Create your models here.
 
+class Page(models.Model):
+    page_name=models.CharField(max_length=100, primary_key=True)
+    page_views=models.IntegerField(default=0)
 
 class Article(models.Model):
     title=models.CharField(max_length=150)
@@ -22,4 +25,7 @@ class State(models.Model):
 class NationalData(models.Model):
     date=models.DateField()
     number_of_cases=models.IntegerField()
+    total_cured=models.IntegerField(default=0)
+    total_deaths=models.IntegerField(default=0)
+
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Article,State, NationalData
+from .models import Article, State, NationalData, Page
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -53,5 +53,19 @@ class NationalDataSerializer(serializers.ModelSerializer):
     class Meta:
         model=NationalData
         fields=(
-            'date','number_of_cases'
+            'date','number_of_cases','total_cured','total_cured'
+        )
+
+class PageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Page
+        fields=[
+            'page_name'
+        ]
+
+class PageViewsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Page
+        fields=(
+            'page_name','page_views'
         )

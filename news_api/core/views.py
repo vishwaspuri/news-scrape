@@ -1,8 +1,8 @@
 from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Article,State, NationalData
-from .serializers import ArticleSerializer, StateSerializer,StateNameSerializer, IndianCasesSerializer,ForeignCasesSerializer, CuredCasesSerializer,DeathCasesSerializer,NationalDataSerializer
+from .models import Article,State, NationalData, Page
+from .serializers import PageViewsSerializer,ArticleSerializer, StateSerializer,StateNameSerializer, IndianCasesSerializer,ForeignCasesSerializer, CuredCasesSerializer,DeathCasesSerializer,NationalDataSerializer, PageSerializer
 from bs4 import BeautifulSoup as Soup
 import requests
 
@@ -153,4 +153,21 @@ class NationalDataView(APIView):
     def get(self, request, *args, **kwargs):
         qs=NationalData.objects.all()
         serializer=NationalDataSerializer(qs,many=True)
+        return Response(serializer.data)
+
+class PageView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer=PageSerializer(data=request.data)
+        if serializer.is_valid():
+            page=Page.objects.get(page_name=serializer.data['page_name'])
+            page.page_views=page.page_views+1
+            page.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+
+class TotalPageViews(APIView):
+    def get(self, request, *args, **kwargs):
+        qs = Page.objects.all()
+        serializer=PageViewsSerializer(qs, many=True)
         return Response(serializer.data)
