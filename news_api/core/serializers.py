@@ -53,19 +53,12 @@ class NationalDataSerializer(serializers.ModelSerializer):
     class Meta:
         model=NationalData
         fields=(
-            'date','number_of_cases','total_cured','total_cured'
+            'date','number_of_cases','total_cured','total_deaths'
         )
 
 class PageSerializer(serializers.ModelSerializer):
     class Meta:
         model=Page
         fields=[
-            'page_name'
-        ]
-
-class PageViewsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Page
-        fields=(
             'page_name','page_views'
-        )
+        ]

@@ -14,9 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from core.views import TotalPageViews,PageView,ArticleView, StateView, StateNameView, IndianCasesView, ForeignCasesView,CuredCasesView,DeathCasesView,CombinedView,NationalDataView
+from django.urls import path, include
+from core.views import PageView,ArticleView, StateView, StateNameView, IndianCasesView, ForeignCasesView,CuredCasesView,DeathCasesView,CombinedView,NationalDataView
 import core.views as views
+from .router import router
 
 
 urlpatterns = [
@@ -33,5 +34,6 @@ urlpatterns = [
     path('combo-mode/', CombinedView.as_view(), name='combined info'),
     path('national-data/', NationalDataView.as_view(), name='national data'),
     path('post-view/', PageView.as_view(), name='add click'),
-    path('page-info/', TotalPageViews.as_view(), name='page-data'),
+#   path('page-info/', TotalPageViews.as_view(), name='page-data'),
+    path('page', include(router.urls)),
 ]
