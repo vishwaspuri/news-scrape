@@ -15,9 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from core.views import PageView,ArticleView, StateView, StateNameView, IndianCasesView, ForeignCasesView,CuredCasesView,DeathCasesView,CombinedView,NationalDataView
+from core.views import HitCountView,ArticleView, StateView, StateNameView, IndianCasesView, ForeignCasesView,CuredCasesView,DeathCasesView,CombinedView,NationalDataView
 import core.views as views
-from .router import router
 
 
 urlpatterns = [
@@ -33,7 +32,6 @@ urlpatterns = [
     path('dead-cases/', DeathCasesView.as_view(), name='dead cases'),
     path('combo-mode/', CombinedView.as_view(), name='combined info'),
     path('national-data/', NationalDataView.as_view(), name='national data'),
-    path('post-view/', PageView.as_view(), name='add click'),
-#   path('page-info/', TotalPageViews.as_view(), name='page-data'),
-    path('page', include(router.urls)),
+    path('hitcount/<int:pk>/', views.hitcount, name='increaseHit'),
+    path('hits/', HitCountView.as_view(), name='numVisits'),
 ]

@@ -1,8 +1,9 @@
 from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import viewsets
 from .models import Article,State, NationalData, Page
-from .serializers import ArticleSerializer, StateSerializer,StateNameSerializer, IndianCasesSerializer,ForeignCasesSerializer, CuredCasesSerializer,DeathCasesSerializer,NationalDataSerializer, PageSerializer
+from .serializers import PageSerializer,ArticleSerializer, StateSerializer,StateNameSerializer, IndianCasesSerializer,ForeignCasesSerializer, CuredCasesSerializer,DeathCasesSerializer,NationalDataSerializer
 from bs4 import BeautifulSoup as Soup
 import requests
 
@@ -155,14 +156,14 @@ class NationalDataView(APIView):
         serializer=NationalDataSerializer(qs,many=True)
         return Response(serializer.data)
 
-class PageView(APIView):
-    def post(self, request, *args, **kwargs):
-        serializer=PageSerializer(data=request.data)
-        if serializer.is_valid():
-            page=Page.objects.get(page_name=serializer.data['page_name'])
-            page.page_views=page.page_views+1
-            page.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
+def hitcount(request, pk=None):
+    page = Page.objects.get(pk=pk)
+    page.visits = page.visits+1
+    page.save()
+    return redirect('/hits/')
 
-
+class HitCountView(APIView):
+    def get(self, request, *args, **kwargs):
+        qs = Page.objects.all()
+        serializer = PageSerializer(qs, many=True)
+        return Response(serializer.data)

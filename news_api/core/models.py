@@ -3,8 +3,9 @@ from django.db import models
 # Create your models here.
 
 class Page(models.Model):
-    page_name=models.CharField(max_length=100, primary_key=True)
-    page_views=models.IntegerField(default=0)
+    page_number=models.IntegerField(primary_key=True)
+    page_name=models.CharField(max_length=100, default='')
+    visits = models.IntegerField(default=0)
 
 class Article(models.Model):
     title=models.CharField(max_length=150)

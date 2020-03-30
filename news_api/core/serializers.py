@@ -58,7 +58,5 @@ class NationalDataSerializer(serializers.ModelSerializer):
 
 class PageSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Page
-        fields=[
-            'page_name','page_views'
-        ]
+        model = Page
+        fields = ('page_name','visits')
