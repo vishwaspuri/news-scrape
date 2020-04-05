@@ -19,7 +19,6 @@ class State(models.Model):
     index=models.IntegerField(primary_key=True)
     state_name=models.CharField(max_length=100)
     india_confirmed_cases=models.IntegerField()
-    foreign_confirmed_cases = models.IntegerField()
     cured_cases=models.IntegerField()
     deaths_caused=models.IntegerField()
 

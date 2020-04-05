@@ -47,54 +47,54 @@ def news_scrape(request):
     return redirect('news_result/')
 
 def StateData(request):
-#   State.objects.all().delete()
+    State.objects.all().delete()
     session = requests.Session()
     url = 'https://www.mohfw.gov.in/'
     content = session.get(url, verify=False).content
     soup = Soup(content, 'lxml')
-    index = []
-    StateName = []
-    confirmed_cases_indian = []
-    confirmed_cases_foreign = []
-    cured = []
-    deaths = []
+    index=[]
+    state_name=[]
+    confirmed_cases_indian=[]
+    cured=[]
+    deaths=[]
+    i=0
+    table=soup.find_all('table',{'class':'table table-striped'})[0]
+    for element in table.find_all('tr'):
+        if i>0 and i<31:
+            table_row=element.find_all('td')
+            index.append(int(table_row[0].string))
+            state_name.append(table_row[1].string)
+            confirmed_cases_indian.append(int(table_row[2].string))
+            cured.append(int(table_row[3].string))
+            deaths.append(int(table_row[4].string))
+        i=i+1
 
-    table_class = soup.find_all(class_='table table-striped table-dark')[7]
-    i = 0
-    for element in table_class.find_all('tr'):
-        if i < 27:
-            table_row = element.find_all('td')
-            x = 0
-            for td in table_row:
-                if x == 0:
-                    index.append(int(td.string))
-                    x = x + 1
-                elif x == 1:
-                    StateName.append(td.string)
-                    x = x + 1
-                elif x == 2:
-                    confirmed_cases_indian.append(int(td.string))
-                    x = x + 1
-                elif x == 3:
-                    confirmed_cases_foreign.append(int(td.string))
-                    x = x + 1
-                elif x == 4:
-                    cured.append(int(td.string))
-                    x = x + 1
-                elif x == 5:
-                    deaths.append(int(td.string))
-                    x = x + 1
-            i = i + 1
-    for i in range(0,26):
+    newState = State()
+    newState.index = 30
+    newState.state_name = 'India'
+    india_confirmed_cases=0
+    india_cured_cases=0
+    india_total_deaths=0
+    for i in range(0,30):
         new_state=State()
-        new_state.state_name=StateName[i]
+        new_state.index=index[i]
+        new_state.state_name=state_name[i]
         new_state.india_confirmed_cases=confirmed_cases_indian[i]
-        new_state.foreign_confirmed_cases=confirmed_cases_foreign[i]
         new_state.cured_cases=cured[i]
         new_state.deaths_caused=deaths[i]
         new_state.save()
-    return redirect('state_result/')
+        india_confirmed_cases=confirmed_cases_indian[i]+india_confirmed_cases
+        india_cured_cases=cured[i]+india_cured_cases
+        india_total_deaths=deaths[i]+india_total_deaths
+    newState.india_confirmed_cases=india_confirmed_cases
+    newState.cured_cases=india_cured_cases
+    newState.deaths_caused=india_total_deaths
+    newState.save()
+    return redirect('/state-result/')
 
+    new_state=State()
+    news_state.index=30
+    new_state.state_name='India'
 
 class ArticleView(APIView):
     def get(self, request, *args, **kwargs):

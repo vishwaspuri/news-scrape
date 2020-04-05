@@ -13,7 +13,7 @@ class StateSerializer(serializers.ModelSerializer):
     class Meta:
         model=State
         fields=(
-            'state_name','india_confirmed_cases','foreign_confirmed_cases','cured_cases','deaths_caused'
+            'state_name','india_confirmed_cases','cured_cases','deaths_caused'
         )
 
 class StateNameSerializer(serializers.ModelSerializer):
