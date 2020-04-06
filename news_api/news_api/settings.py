@@ -11,19 +11,21 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from .secret_settings import SECRET_KEY, DATABASE_PASSWORD
+#from .secret_settings import SECRET_KEY, DATABASE_PASSWORD
+import django_heroku
+import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
+SECRET_KEY = 'c2lvh5np4nfqfna6jm=@*-7(em6_vs21+9o+=%sn%&txls!rqz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['vp7.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -75,6 +77,7 @@ WSGI_APPLICATION = 'news_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -84,6 +87,9 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     }
+}'''
+DATABASES={
+    'default':dj_database_url.config()
 }
 
 
@@ -129,5 +135,5 @@ STATIC_URL = '/static/'
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Configure Django App for Heroku.
-import django_heroku
+
 django_heroku.settings(locals())
