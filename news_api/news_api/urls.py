@@ -24,6 +24,7 @@ urlpatterns = [
     path('news-scrape/', views.news_scrape, name='news_scrape'),
     path('news-scrape/news_result/', ArticleView.as_view(), name='article'),
     path('state-scrape/', views.StateData, name='state_scrape'),
+    path('district-data/', views.DistrictwiseData, name='districtwise data'),
     path('state-result/', StateView.as_view(), name='state'),
     path('state-name/', StateNameView.as_view(), name='state name'),
     path('indian-cases/', IndianCasesView.as_view(), name='indian cases'),

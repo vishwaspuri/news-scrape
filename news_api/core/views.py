@@ -1,11 +1,15 @@
 from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import viewsets
 from .models import Article,State, NationalData, Page
 from .serializers import PageSerializer,ArticleSerializer, StateSerializer,StateNameSerializer, IndianCasesSerializer,ForeignCasesSerializer, CuredCasesSerializer,DeathCasesSerializer,NationalDataSerializer
 from bs4 import BeautifulSoup as Soup
 import requests
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+from django.http import JsonResponse
+from .secrets import GOOGLE_CREDENTIALS
+import json
 
 # Create your views here.
 def news_scrape(request):
@@ -167,3 +171,20 @@ class HitCountView(APIView):
         qs = Page.objects.all()
         serializer = PageSerializer(qs, many=True)
         return Response(serializer.data)
+
+def DistrictwiseData(request):
+    scope = ['https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/drive.file',
+             'https://www.googleapis.com/auth/spreadsheets']
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(GOOGLE_CREDENTIALS, scope)
+    client = gspread.authorize(creds)
+    sheet = client.open("District Data").sheet1
+    data = sheet.get_all_values()
+    data_list = []
+    for element in data:
+        data_dict = {
+            "State": element[0],
+            "District": element[1],
+            "Num_cases_in_district": element[2]
+        }
+        data_list.append(data_dict)
+    return JsonResponse(data_list, safe=False)

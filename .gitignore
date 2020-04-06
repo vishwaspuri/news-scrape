@@ -1,5 +1,7 @@
 news_api/*.pyc
-__pycache__
+news_api/news_api/__pycache__
+news_api/core/__pycache__
+news_api/core/secrets.py
 env
 news_api/news_api/secret_settings.py
 news_api/db.sqlite3
