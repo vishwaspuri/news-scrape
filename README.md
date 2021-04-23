@@ -1,5 +1,6 @@
 # news-scrape
 
+### This API was built for GoI website during March-April 2020 and would be of no use now other than learning purposes.
 
 Create virtual environment
 ```
